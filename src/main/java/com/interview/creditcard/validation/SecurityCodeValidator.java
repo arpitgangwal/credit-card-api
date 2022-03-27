@@ -15,10 +15,10 @@ import static java.lang.annotation.ElementType.PARAMETER;
 @Documented
 @Constraint(validatedBy = SecurityNumberValidator.class)
 public @interface SecurityCodeValidator {
-    public String message() default "Security number is invalid";
+     String message() default "Security number is invalid";
     //represents group of constraints
-    public Class<?>[] groups() default {};
+     Class<?>[] groups() default {};
     //represents additional information about annotation
-    public Class<? extends Payload>[] payload() default {};
+     Class<? extends Payload>[] payload() default {};
 }
 

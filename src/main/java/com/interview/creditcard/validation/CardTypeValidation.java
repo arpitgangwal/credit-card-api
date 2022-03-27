@@ -16,10 +16,10 @@ import static java.lang.annotation.ElementType.PARAMETER;
 @Constraint(validatedBy = CardTypeValidator.class)
 public @interface CardTypeValidation {
     //error message
-    public String message() default "Invalid credit card number";
+     String message() default "Invalid credit card number";
     //represents group of constraints
-    public Class<?>[] groups() default {};
+     Class<?>[] groups() default {};
     //represents additional information about annotation
-    public Class<? extends Payload>[] payload() default {};
+     Class<? extends Payload>[] payload() default {};
 }
 

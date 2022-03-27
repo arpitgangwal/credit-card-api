@@ -15,8 +15,7 @@ public class ExpiryDateValidator implements ConstraintValidator<ExpirationDateVa
         Date date;
         sdf.setLenient(false);
         try {
-            date=   sdf.parse(expiryDate);
-            date.after(new Date());
+            date=  sdf.parse(expiryDate);
         } catch (ParseException e) {
             return false;
         }

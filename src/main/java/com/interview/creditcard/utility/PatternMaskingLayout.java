@@ -14,7 +14,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 public class PatternMaskingLayout extends PatternLayout {
 
     private Pattern multilinePattern;
-    private List<String> maskPatterns = new ArrayList<>();
+    private final List<String> maskPatterns = new ArrayList<>();
 
     public void addMaskPattern(String maskPattern) { // invoked for every single entry in the xml
         maskPatterns.add(maskPattern);
@@ -46,15 +46,13 @@ public class PatternMaskingLayout extends PatternLayout {
     private void maskFieldData(StringBuilder sb, Matcher matcher) {
         // here is our main logic for masking sensitive data
         String targetExpression = matcher.group();
-        String[] split = null;
+        String[] split;
         if (targetExpression.contains("=")) {
             split = targetExpression.split("=");
         }
         else {
             split = targetExpression.split(":");
         }
-        if (split != null) {
-
             String pan = split[1];
             String maskedPan="";
             if(split[0].equalsIgnoreCase("securityCode"))
@@ -64,6 +62,6 @@ public class PatternMaskingLayout extends PatternLayout {
             int start = matcher.start() + split[0].length() + 1;
             int end = matcher.end();
             sb.replace(start, end, maskedPan);
-        }
+
     }
 }

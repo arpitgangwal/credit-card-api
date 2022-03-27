@@ -1,6 +1,5 @@
 package com.interview.creditcard.validation;
 
-import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

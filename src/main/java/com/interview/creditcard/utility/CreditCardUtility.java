@@ -9,8 +9,7 @@ import java.text.SimpleDateFormat;
 public class CreditCardUtility {
 
     public static String getMaskedPan(String pan) {
-        pan = pan.replaceAll(pan, "*******");
-        return pan;
+        return "***";
     }
 
     public static String getMaskedCreditCardNumber(String pan) {

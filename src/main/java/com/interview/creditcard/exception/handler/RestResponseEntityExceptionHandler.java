@@ -41,7 +41,7 @@ public class RestResponseEntityExceptionHandler{
             = {Exception.class})
     protected ResponseEntity<Object> handleGeneralException(
             RuntimeException ex, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ViolationErrors(ex.getMessage(),ex.getCause().toString()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ViolationErrors("Internal Server Error",ex.getMessage()));
 
     }
 }

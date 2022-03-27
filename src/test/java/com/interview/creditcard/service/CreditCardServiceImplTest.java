@@ -2,10 +2,7 @@ package com.interview.creditcard.service;
 
 import com.interview.creditcard.entity.CreditCardEntity;
 import com.interview.creditcard.repository.CreditCardRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,10 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -121,14 +116,14 @@ class CreditCardServiceImplTest {
 
     @Test
     void testGetAllCreditCards() {
-        when(creditCardRepository.findAll()).thenReturn(new ArrayList<CreditCardEntity>());
+        when(creditCardRepository.findAll()).thenReturn(new ArrayList<>());
         assertNotNull(creditCardServiceImpl.getAllCreditCards());
         assertEquals(creditCardServiceImpl.getAllCreditCards().getClass(), ArrayList.class);
     }
 
     @Test
     void addCreditCard() {
-        CreditCardEntity creditCardEntity = new CreditCardEntity(11111111l,"Arpit Gangwal","visa",new Date(),"123","icici",0.00);
+        CreditCardEntity creditCardEntity = new CreditCardEntity(11111111L,"Arpit Gangwal","visa",new Date(),"123","icici",0.00);
         when(creditCardRepository.save(creditCardEntity)).thenReturn(creditCardEntity);
         CreditCardEntity creditCardEntityResult= creditCardServiceImpl.addCreditCard(creditCardEntity);
         assertNotNull(creditCardEntityResult);

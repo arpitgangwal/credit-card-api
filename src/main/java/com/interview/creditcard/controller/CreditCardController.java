@@ -31,7 +31,7 @@ public class CreditCardController {
     }
 
     @GetMapping(path = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getCreditCardList(@RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "size", required = false) Integer size) {
+    public ResponseEntity<?> getCreditCardList(@RequestParam(name = "page", required = false) Integer page, @RequestParam(name = "size", required = false) Integer size) {
         log.info("List credit cards request received ");
         if (page != null && size != null)
             return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(creditCardService.getAllCreditCards(PageRequest.of(page, size)));

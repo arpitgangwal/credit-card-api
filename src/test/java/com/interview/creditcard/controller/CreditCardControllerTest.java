@@ -19,11 +19,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(value= CreditCardController.class)
@@ -33,12 +33,8 @@ class CreditCardControllerTest {
    @MockBean
    private CreditCardService creditCardService;
 
-   private static String ADD_URI= "/credit-card/add";
-    private static String LIST_ALL_URI= "/credit-card/list";
-    private static String VALID_FILE= "src/test/resources/CreditCardValidRequest.json";
-    private static String INVALID_CARD_NUMBER_FILE= "src/test/resources/CreditCardInValidRequestBadCardNumber.json";
-    private static String INVALID_DATE_FILE= "src/test/resources/CreditCardInValidRequestBadDate.json";
-    private static String INVALID_CARD_TYPE_FILE= "src/test/resources/CreditCardInValidRequestBadCardType.json";
+   private static final String ADD_URI= "/credit-card/add";
+    private static final String LIST_ALL_URI= "/credit-card/list";
 
     @BeforeEach
     void setUp() {
@@ -47,6 +43,7 @@ class CreditCardControllerTest {
 
     @Test
     void testCreateCreditCardValid() throws Exception {
+        String VALID_FILE = "src/test/resources/CreditCardValidRequest.json";
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(ADD_URI).accept(MediaType.APPLICATION_JSON).content(readFileAsString(VALID_FILE)).contentType(MediaType.APPLICATION_JSON);
         when(creditCardService.addCreditCard(any(CreditCardEntity.class))).thenReturn(any(CreditCardEntity.class));
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -56,6 +53,7 @@ class CreditCardControllerTest {
     }
     @Test
     void testCreateCreditCardBadCardNumber() throws Exception {
+        String INVALID_CARD_NUMBER_FILE = "src/test/resources/CreditCardInValidRequestBadCardNumber.json";
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(ADD_URI).accept(MediaType.APPLICATION_JSON).content(readFileAsString(INVALID_CARD_NUMBER_FILE)).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -64,6 +62,7 @@ class CreditCardControllerTest {
     }
     @Test
     void testCreateCreditCardInvalidDate() throws Exception {
+        String INVALID_DATE_FILE = "src/test/resources/CreditCardInValidRequestBadDate.json";
         RequestBuilder requestBuilder = MockMvcRequestBuilders.post(ADD_URI).accept(MediaType.APPLICATION_JSON).content(readFileAsString(INVALID_DATE_FILE)).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
@@ -72,7 +71,8 @@ class CreditCardControllerTest {
     }
     @Test
     void testCreateCreditCardInvalidCardType() throws Exception {
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(ADD_URI).accept(MediaType.APPLICATION_JSON).content(readFileAsString(INVALID_CARD_TYPE_FILE)).contentType(MediaType.APPLICATION_JSON);;
+        String INVALID_CARD_TYPE_FILE = "src/test/resources/CreditCardInValidRequestBadCardType.json";
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(ADD_URI).accept(MediaType.APPLICATION_JSON).content(readFileAsString(INVALID_CARD_TYPE_FILE)).contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         assertNotNull(response);
@@ -93,12 +93,21 @@ class CreditCardControllerTest {
     @Test
     void testGetCreditCardListWithoutPagination() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get(LIST_ALL_URI).accept(MediaType.APPLICATION_JSON);
-        when(creditCardService.getAllCreditCards()).thenReturn(anyList());
+        when(creditCardService.getAllCreditCards()).thenReturn(new ArrayList<>());
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         assertNotNull(response);
         assertEquals(HttpStatus.OK.value(),response.getStatus());
+    } @Test
+    void testGetCreditCardListThrowsError() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(LIST_ALL_URI).accept(MediaType.APPLICATION_JSON);
+        when(creditCardService.getAllCreditCards()).thenThrow(new NullPointerException("No Result Found"));
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        assertNotNull(response);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatus());
     }
+
 
     public static String readFileAsString(String file)throws Exception
     {
