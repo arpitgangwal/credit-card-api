@@ -1,0 +1,39 @@
+stages:
+  - Resolve dependencies and build
+  - Containerise and publish container
+
+Resolve dependencies and build:
+  stage: Resolve dependencies and build
+  script:
+    - mvn -Dskip.tests=true -P executable-spring-boot clean package
+  tags:
+    - build-artifact
+  artifacts:
+    paths:
+      - ./target/$CI_PROJECT_NAME.jar
+      - ./target/site/*
+      - ./target/surefire-reports/*.xml
+      - ./target/jacoco-output/*
+    reports:
+      junit: ./target/surefire-reports/*.xml
+  only:
+    - merge_requests
+    - tags
+
+Containerise and publish container:
+  stage: Containerise and publish container
+  script:
+    - PROJECT_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+    - docker build -t $CI_PROJECT_NAME:${PROJECT_VERSION} .
+  only:
+    - merge_requests
+    - tags
+
+
+
+
+
+
+
+
+
