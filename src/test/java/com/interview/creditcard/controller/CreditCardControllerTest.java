@@ -105,7 +105,7 @@ class CreditCardControllerTest {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         assertNotNull(response);
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatus());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(),response.getStatus());
     }
 
 

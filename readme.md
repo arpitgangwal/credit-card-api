@@ -29,4 +29,7 @@ Return HTTP status 201 as created
 If we won't pass query param it return full results with HTTP Status 200
 Else it will return Partial result with HttpStatus 206
 
+**Runtime VM Param for starting application**
+
+-Djasypt.encryptor.password=test
 
