@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 
 @RestController
-@RequestMapping(value = "/credit-card")
+@RequestMapping(value = "/credit-cards")
 @Slf4j
 public class CreditCardController {
     private CreditCardService creditCardService;

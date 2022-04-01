@@ -33,8 +33,8 @@ class CreditCardControllerTest {
    @MockBean
    private CreditCardService creditCardService;
 
-   private static final String ADD_URI= "/credit-card/add";
-    private static final String LIST_ALL_URI= "/credit-card/list";
+   private static final String ADD_URI= "/credit-cards/add";
+    private static final String LIST_ALL_URI= "/credit-cards/list";
 
     @BeforeEach
     void setUp() {
